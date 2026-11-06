@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d19">
+<title>FaktaLens AI — Pemeriksa Fakta Cerdas</title>
+<style>
+:root {
+  --bg:#080d19;
+  --panel:#111a2b;
+  --panel2:#162238;
+  --text:#edf3ff;
+  --muted:#91a0b9;
+  --blue:#548cff;
+  --cyan:#43d9d0;
+  --border:#263550;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at 50% -20%,#1b3764 0%,transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  min-height:100vh;
+}
+header{
+  max-width:1000px;
+  margin:auto;
+  padding:22px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px}
+.logo-icon{
+  width:39px;height:39px;border-radius:12px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:#06111e;font-size:21px;
+}
+.tag{
+  color:#8be9d8;
+  font-size:11px;
+  border:1px solid #246d68;
+  padding:6px 10px;border-radius:20px;
+}
+main{max-width:850px;margin:65px auto;padding:0 18px 60px}
+.hero{text-align:center;margin-bottom:32px}
+.eyebrow{
+  color:var(--cyan);font-size:12px;
+  font-weight:700;letter-spacing:2px;
+}
+h1{font-size:clamp(32px,7vw,53px);line-height:1.1;margin:14px 0}
+h1 span{
+  background:linear-gradient(90deg,#70a5ff,#48e2d2);
+  -webkit-background-clip:text;color:transparent;
+}
+.hero p{color:var(--muted);line-height:1.7;max-width:580px;margin:auto}
+.card{
+  background:linear-gradient(145deg,#142138,#0e1728);
+  border:1px solid var(--border);
+  border-radius:20px;padding:22px;
+  box-shadow:0 18px 55px #0005;
+}
+label{display:block;font-weight:700;margin-bottom:12px}
+textarea{
+  width:100%;min-height:160px;resize:vertical;
+  background:#091322;border:1px solid #2a3b59;
+  border-radius:13px;padding:16px;
+  color:var(--text);font:inherit;outline:none;
+}
+textarea:focus{border-color:var(--blue)}
+textarea::placeholder{color:#687995}
+.tools{
+  display:flex;justify-content:space-between;
+  gap:12px;align-items:center;margin-top:12px;
+  flex-wrap:wrap;
+}
+.counter{font-size:12px;color:var(--muted)}
+button{
+  border:0;border-radius:12px;padding:14px 22px;
+  background:linear-gradient(100deg,#548cff,#35c9ce);
+  color:#06111e;font-weight:800;font-size:14px;
+  cursor:pointer;
+}
+button:disabled{opacity:.55;cursor:not-allowed}
+.examples{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.example{
+  background:#1b2a43;border:1px solid var(--border);
+  border-radius:20px;padding:8px 12px;
+  font-size:12px;color:#c4d3ed;cursor:pointer;
+}
+#message{margin-top:16px;color:var(--muted);font-size:13px}
+.result{margin-top:22px;display:none}
+.result-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+}
+.status{
+  display:inline-block;padding:8px 13px;border-radius:9px;
+  font-weight:800;font-size:13px;background:#263550;
+}
+.status.BENAR{background:#123e35;color:#75efc1}
+.status.SALAH{background:#4b2029;color:#ff9ca9}
+.status.MENYESATKAN{background:#4b3820;color:#ffd28a}
+.status.BELUM{background:#263550;color:#c6d6f2}
+.score{color:var(--muted);font-size:13px}
+.result h3{font-size:14px;margin:22px 0 8px}
+.result p{color:#c4d0e4;line-height:1.7;white-space:pre-wrap}
+.evidence{padding-left:20px;color:#c4d0e4;line-height:1.7}
+.source{
+  display:block;padding:12px;margin-top:9px;
+  border:1px solid var(--border);border-radius:10px;
+  color:#8ebaff;text-decoration:none;overflow-wrap:anywhere;
+}
+.source:hover{background:#1a2940}
+.warning{
+  margin-top:20px;padding:13px;
+  border:1px solid #5b4b29;border-radius:11px;
+  background:#302716;color:#e9d3a5;
+  font-size:12px;line-height:1.6;
+}
+footer{text-align:center;color:#697b98;font-size:12px;padding:25px}
+@media(max-width:600px){
+  main{margin-top:40px}
+  .card{padding:16px}
+  .tools button{width:100%}
+  header{padding:15px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-icon">⌕</div>
+    <span>FaktaLens AI</span>
+  </div>
+  <span class="tag">AI FACT CHECKER</span>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">INFORMASI LEBIH CERDAS</div>
+    <h1>Jangan Asal Percaya.<br><span>Periksa Faktanya.</span></h1>
+    <p>
+      Masukkan berita, informasi, atau klaim yang kamu temukan.
+      FaktaLens AI akan membantu memeriksa bukti dan sumbernya.
+    </p>
+  </section>
+
+  <section class="card">
+    <label for="claim">Apa yang ingin kamu periksa?</label>
+    <textarea id="claim" maxlength="8000"
+      placeholder="Tempel berita atau tulis klaim di sini..."></textarea>
+
+    <div class="tools">
+      <span class="counter" id="counter">0 / 8000 karakter</span>
+      <button id="checkBtn" onclick="checkFact()">✦ Periksa Fakta</button>
+    </div>
+
+    <div class="examples">
+      <span class="example" onclick="useExample(0)">Contoh klaim sains</span>
+      <span class="example" onclick="useExample(1)">Contoh informasi kesehatan</span>
+    </div>
+    <div id="message" role="status"></div>
+  </section>
+
+  <section class="card result" id="result">
+    <div class="result-head">
+      <span class="status" id="status">HASIL</span>
+      <span class="score" id="score"></span>
+    </div>
+
+    <h3>Kesimpulan</h3>
+    <p id="summary"></p>
+
+    <h3>Analisis FaktaLens AI</h3>
+    <p id="explanation"></p>
+
+    <h3>Bukti yang ditemukan</h3>
+    <ul class="evidence" id="evidence"></ul>
+
+    <h3>Sumber referensi</h3>
+    <div id="sources"></div>
+
+    <div class="warning" id="caution"></div>
+    <p class="score" id="checkedAt"></p>
+  </section>
+</main>
+
+<footer>
+  FaktaLens AI © 2026 · Periksa informasi sebelum membagikannya.
+</footer>
+
+<script>
+const API_URL =
+  "https://nexus-remote-ai.bimaatab.workers.dev/api/check";
+
+const claimInput = document.getElementById("claim");
+const counter = document.getElementById("counter");
+const button = document.getElementById("checkBtn");
+const message = document.getElementById("message");
+const resultBox = document.getElementById("result");
+
+claimInput.addEventListener("input", () => {
+  counter.textContent =
+    claimInput.value.length + " / 8000 karakter";
+});
+
+function useExample(index) {
+  const examples = [
+    "Apakah benar bahwa Bumi mengelilingi Matahari?",
+    "Apakah semua informasi kesehatan yang beredar di media sosial dapat dipercaya?"
+  ];
+  claimInput.value = examples[index];
+  claimInput.dispatchEvent(new Event("input"));
+  claimInput.focus();
+}
+
+function safeText(element, value) {
+  element.textContent = value || "";
+}
+
+function addSources(sources) {
+  const container = document.getElementById("sources");
+  container.replaceChildren();
+
+  if (!sources || sources.length === 0) {
+    const p = document.createElement("p");
+    p.textContent = "Tidak ada sumber web yang berhasil diperoleh.";
+    container.appendChild(p);
+    return;
+  }
+
+  sources.forEach(source => {
+    try {
+      const url = new URL(source.url);
+      if (!["https:", "http:"].includes(url.protocol)) return;
+
+      const link = document.createElement("a");
+      link.className = "source";
+      link.href = url.href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent =
+        (source.title || "Sumber referensi") + " ↗";
+      container.appendChild(link);
+    } catch {}
+  });
+}
+
+async function checkFact() {
+  const claim = claimInput.value.trim();
+
+  if (claim.length < 10) {
+    message.textContent =
+      "Masukkan minimal 10 karakter terlebih dahulu.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Sedang memeriksa...";
+  message.textContent =
+    "FaktaLens AI sedang menganalisis klaim dan mencari sumber...";
+  resultBox.style.display = "none";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ claim })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "Pemeriksaan gagal.");
+    }
+
+    const r = data.result;
+
+    const status = document.getElementById("status");
+    safeText(status, r.status);
+    status.className = "status " +
+      (r.status === "BELUM DAPAT DIPASTIKAN"
+        ? "BELUM" : r.status);
+
+    safeText(
+      document.getElementById("score"),
+      "Tingkat keyakinan AI: " + r.confidence + "%"
+    );
+    safeText(document.getElementById("summary"), r.summary);
+    safeText(document.getElementById("explanation"), r.explanation);
+    safeText(document.getElementById("caution"),
+      "Catatan: " + r.caution);
+
+    const list = document.getElementById("evidence");
+    list.replaceChildren();
+
+    (r.evidence || []).forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      list.appendChild(li);
+    });
+
+    addSources(data.sources);
+
+    safeText(
+      document.getElementById("checkedAt"),
+      "Waktu pemeriksaan: " +
+      new Date(data.checkedAt).toLocaleString("id-ID")
+    );
+
+    resultBox.style.display = "block";
+    message.textContent = "Pemeriksaan selesai.";
+  } catch (error) {
+    message.textContent =
+      "Gagal memeriksa: " + error.message +
+      " Periksa koneksi dan konfigurasi backend.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "✦ Periksa Fakta";
+  }
+}
+</script>
+</body>
+        </html>
+  
